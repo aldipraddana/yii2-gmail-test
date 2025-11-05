@@ -7,13 +7,14 @@ use yii\base\DynamicModel;
 
 class GmailTest extends Controller
 {
-    public function index()
+    public static function index()
     {
         $model = new DynamicModel(['smtp_username', 'smtp_password', 'host', 'port', 'encryption', 'from_email', 'from_name', 'to_email', 'subjek', 'pesan']);
-        $input = $this->request->post();
         $model->addRule(['smtp_username','smtp_password','host','port','from_email','to_email','subjek','pesan'], 'required');
-        
+        $model->addRule(['smtp_username', 'from_email', 'to_email'], 'email');
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $input = Yii::$app->request->post();
             $input = $input['DynamicModel'] ?? [];
             Yii::$app->mailer->transport = [
                 'scheme' => 'smtp',
@@ -34,11 +35,12 @@ class GmailTest extends Controller
             if ($sent) {
                 Yii::$app->session->setFlash('success', 'Email sent successfully.');
             } else {
-                Yii::$app->session->setFlash('error', 'Failed to send email. Please check your SMTP settings.');
+                Yii::$app->session->setFlash('danger', 'Failed to send email. Please check your SMTP settings.');
             }
 
-            return $this->refresh();
+            return Yii::$app->controller->refresh();
         }
-        return $this->render('gmail-test-view', get_defined_vars());
+        return Yii::$app->getView()->renderFile(__DIR__ . '/../views/gmail-test-view.php', get_defined_vars());
+        
     }
 }
