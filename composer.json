@@ -1,0 +1,27 @@
+{
+  "name": "aldi/yii2-gmail-test",
+  "description": "test send email from gmail smtp server",
+  "type": "yii2-extension",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "aldi",
+      "email": "aldipraddana@gmail.com"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "^2.0",
+    "yiisoft/yii2-symfonymailer": "~2.0.3",
+    "yiisoft/yii2-bootstrap5": "~2.0.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "aldi\\gmail\\": "src/"
+    }
+  },
+  "extra": {
+    "yii\\extension": {
+      "name": "aldi/yii2-gmail-test"
+    }
+  }
+}
